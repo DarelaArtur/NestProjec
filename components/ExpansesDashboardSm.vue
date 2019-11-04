@@ -1,0 +1,36 @@
+<template>
+  <v-card color="#0063B1" style max-width="100%">
+      <v-sparkline
+        :value="item.value"
+        color="rgba(255, 255, 255, .7)"
+        padding="10"
+        smooth
+        :gradient="['#f72047', '#ffd200', '#1feaea']"
+        gradient-direction="top"
+        auto-draw
+      >
+        <template v-slot:label="item">${{ item.value }}</template>
+      </v-sparkline>
+      <!--v-sparkline
+                  :labels="labels"
+                  :value="value"
+                  padding="16"
+                  :gradient="['#f72047', '#ffd200', '#1feaea']"
+                  gradient-direction="top"
+                  auto-draw
+      ></v-sparkline-->
+  </v-card>
+</template>
+<script>
+export default {
+  data: () => ({
+    item: {
+      value: [423, 446, 675, 510, 590, 610, 760]
+    }
+  })
+}
+</script>
+<style>
+
+
+</style>
