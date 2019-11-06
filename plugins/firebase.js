@@ -17,7 +17,7 @@ import 'firebase/messaging'
    };
 
 export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
-export const dbDefault = firebase.app().database('https://project-dashboard-dev.firebaseio.com');
+export const dbDefault = firebase.app().database('https://project-dashboard-dev.firebaseio.com/');
 export const google_provider = new firebase.auth.GoogleAuthProvider()
 export const facebook_provider = new firebase.auth.FacebookAuthProvider();
 

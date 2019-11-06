@@ -92,6 +92,10 @@ export default {
           // The signed-in user info.
           var user = result.user
           console.log(result)
+          
+          if(result.additionalUserInfo.isNewUser) {
+            self.$store.commit('login/setNewUser', true)
+          }
           // ...
         })
         .catch(function(error) {

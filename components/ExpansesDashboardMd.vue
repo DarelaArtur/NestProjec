@@ -15,7 +15,7 @@
         gradient-direction="top"
         auto-draw
       >
-        <template v-slot:label="item">${{ item.value }}</template>
+        <template v-slot:label="item">{{ infoUser.currencySymbol }}{{ item.value }}</template>
       </v-sparkline>
       <!--v-sparkline
                   :labels="labels"
@@ -37,11 +37,17 @@
   </v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data: () => ({
     item: {
       value: [423, 446, 675, 510, 590, 610, 760]
     }
+  }),
+
+  computed: mapGetters({
+    infoUser: 'login/getInfoUser'
   })
 }
 </script>

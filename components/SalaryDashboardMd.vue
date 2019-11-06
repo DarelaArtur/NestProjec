@@ -12,21 +12,21 @@
                       <v-icon color="rgb(57, 233, 89)" size="30">attach_money</v-icon>
                       <span class="title font-weight-light mb-1">
                         Salary:
-                        <b>€ 5032,00</b>
+                        <b> {{ infoUser.currencySymbol }} 5032,00</b>
                       </span>
                     </v-row>
                     <v-row align="start">
                       <v-icon color="red" size="30">trending_down</v-icon>
                       <span class="title font-weight-light mb-1">
                         Expenses:
-                        <b>€ 2460,28</b>
+                        <b> {{ infoUser.currencySymbol }} 2460,28</b>
                       </span>
                     </v-row>
                     <v-row align="start">
                       <v-icon color="yellow" size="30">add</v-icon>
                       <span class="title font-weight-light mb-1">
                         Balance:
-                        <b>€ 2571,72</b>
+                        <b> {{ infoUser.currencySymbol }} 2571,72</b>
                       </span>
                     </v-row>
                   </v-col>
@@ -43,7 +43,7 @@
                     class="ma-2"
                     small
                   >
-                    October
+                   {{ currentMonth | stringMonth }}
                   </v-chip>
               </div>
                 <v-divider class="my-2"></v-divider>
@@ -53,8 +53,18 @@
             </v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import moment from "moment"
+import momentTimezone from "moment-timezone"
+
 export default {
-    
+  data: () => ({
+    currentMonth: moment().month()
+  }),
+  
+  computed: mapGetters({
+    infoUser: 'login/getInfoUser'
+  })
 }
 </script>
 <style>

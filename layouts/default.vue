@@ -70,9 +70,9 @@
         class="hidden-sm-and-down"
       ></v-text-field-->
       <v-spacer></v-spacer>
-      <v-btn icon v-if="authUser">
-        <v-icon>apps</v-icon>
-      </v-btn>
+
+      <language-currency-menu v-if="authUser"/>
+
       <v-btn icon v-if="authUser">
         <v-icon>notification_important</v-icon>
       </v-btn>
@@ -92,10 +92,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserCardMenu from '~/components/UserCardMenu.vue'
+import LanguageCurrencyMenu from '~/components/LanguageCurrencyMenu.vue'
 
 export default {
   components: {
-    UserCardMenu
+    UserCardMenu,
+    LanguageCurrencyMenu
   },
 
   computed: mapGetters({
@@ -118,13 +120,13 @@ export default {
       items: [
         { icon: 'contacts', text: 'Dashboard', to: '/dashboard' },
         { icon: 'history', text: 'Login', to: '/login' },
-        { icon: 'content_copy', text: 'LoginPage', to: '/loginTeste' },
+        { icon: 'add', text: 'Types', to: '/types' },
         {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',
-          text: 'Labels',
+          text: 'Another',
           model: true,
-          children: [{ icon: 'add', text: 'Create label', to: '/inspire' }]
+          children: [{ icon: 'add', text: 'Add Type', to: '/type/add' }]
         },
         {
           icon: 'keyboard_arrow_up',
@@ -149,8 +151,7 @@ export default {
   },
 
   beforeMount() {
-    //this.$store.commit('checkLogin')
-    this.$store.dispatch('login/checkLogin')
+    this.$store.dispatch('login/loginVerify')
   }
 }
 </script>

@@ -10,11 +10,12 @@
           <v-col class="d-none d-md-block" :cols="6">
             <expanses-dashboard-md />
           </v-col>
-          <v-col class="d-sm-none" :cols="12">   
+          <v-col class="d-sm-none" :cols="12">
             <expanses-dashboard-sm />
           </v-col>
           <v-col class="d-sm-none" :cols="12">
             <salary-dashboard-sm />
+            <br />
           </v-col>
         </v-row>
         <v-row dense>
@@ -38,7 +39,7 @@
       </v-btn>
       <v-dialog v-model="dialog" width="800px">
         <v-card>
-          <v-card-title class="grey darken-2">Create contact</v-card-title>
+          <v-card-title class="primary darken-2" style="color:white">Create contact</v-card-title>
           <v-container>
             <v-row>
               <v-col class="align-center justify-space-between" cols="12">
@@ -86,6 +87,9 @@ import ExpansesDashboardMd from '~/components/ExpansesDashboardMd.vue'
 import SalaryDashboardSm from '~/components/SalaryDashboardSm.vue'
 import ExpansesDashboardSm from '~/components/ExpansesDashboardSm.vue'
 
+import moment from 'moment'
+import momentTimezone from 'moment-timezone'
+
 export default {
   components: {
     FixedExpenses,
@@ -121,7 +125,27 @@ export default {
       '08/ago'
     ],
     value: [200, 675, 410, 390, 310, 460, 250, 240]
-  })
+  }),
+  beforeMount() {
+    console.log(moment().date())
+    console.log(moment().month())
+    console.log(moment().year())
+
+    //Convert the month number to String.
+    const number = 0
+    console.log(
+      moment()
+        .month(number)
+        .format('MMMM')
+    )
+
+    //Current Month Format eg: January, February
+    console.log(
+      moment()
+        .month(moment().month())
+        .format('MMMM')
+    )
+  }
 }
 </script>
 <style>
