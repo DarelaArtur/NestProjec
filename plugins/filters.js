@@ -9,11 +9,13 @@ Vue.filter('stringMonth', function (value) {
 
 Vue.filter('languageFilter', function (value) {
     var language = 'English'
-    
-    if(value == 'PT') {
+
+    if(value == 'PT' || value == 'BR') {
         language = 'Português'
+
     } else if (value == 'ES') {
         language = 'Español'
+
     }
      
     return language;
@@ -22,11 +24,14 @@ Vue.filter('languageFilter', function (value) {
 Vue.filter('currencyFilter', function (value) {
     var currency = 'Euro - €'
     
-    if(value == 'R$') {
+    if(value == 'BRL') {
         currency = 'Real - R$'
 
-    } else if (value == '$') {
+    } else if (value == 'USD') {
         currency = 'Dollar - $'
+        
+    } else if (value == 'GBP') {
+        currency = 'Pound Sterling - £'
     }
      
     return currency;

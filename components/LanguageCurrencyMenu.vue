@@ -84,7 +84,7 @@ export default {
     return {
       menu: false,
       languages: ['PT', 'EN', 'ES'],
-      currencys: ['€', '$', 'R$']
+      currencys: ['EUR', 'USD', 'BRL', 'GBP']
     }
   },
   computed: {
@@ -98,7 +98,7 @@ export default {
     },
     selectCurrency: {
       get() {
-        return this.infoUser.currencySymbol
+        return this.infoUser.currency
       },
       set(value) {
         this.$store.dispatch('login/updateUserCurrency', value)

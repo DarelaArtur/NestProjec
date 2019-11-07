@@ -20,17 +20,30 @@ export const mutations = {
   },
 
   updateInfoUserCurrency(state, value) {
-    state.infoUser.currencySymbol = value;
+    state.infoUser.currencySymbol = value
   },
 
   detectUserInfo(state) {
-    axios({ method: 'GET', url: 'http://www.geoplugin.net/json.gp' }).then(
+    axios({ method: 'GET', url: 'https://ipapi.co/json/' }).then(
       result => {
         state.infoUser = {
-          currency: result.data.geoplugin_currencyCode,
-          currencySymbol: result.data.geoplugin_currencySymbol,
-          country: result.data.geoplugin_countryName,
-          language: result.data.geoplugin_countryCode
+          currency: result.data.currency,
+          currencySymbol: '€',
+          country: result.data.country_name,
+          language: result.data.country
+        }
+
+        if (result.data.currency == 'USD') {
+          state.infoUser.currencySymbol = '$'
+
+        } else if (result.data.currency == 'BRL') {
+          state.infoUser.currencySymbol = 'R$'
+
+        } else if (result.data.currency == 'EUR') {
+          state.infoUser.currencySymbol = '€'
+          
+        } else if ( result.data.currency == 'GBP') {
+          state.infoUser.currencySymbol = '£'
         }
       },
       error => {
@@ -60,8 +73,17 @@ export const getters = {
 }
 
 export const actions = {
-
   updateUserCurrency(context, value) {
+    if (value == 'EUR') {
+      value = '€'
+    } else if (value == 'USD') {
+      value = '$'
+    } else if (value == 'BRL') {
+      value = "R$"
+    } else if (value == 'GBP') {
+      value = "£"
+    }
+
     context.commit('updateInfoUserCurrency', value)
   },
 
