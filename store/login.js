@@ -50,7 +50,7 @@ export const getters = {
       var emptyInfo = {
         currency: 'EUR',
         currencySymbol: '€',
-        language: 'English'
+        language: 'EN'
       }
       return (state.infoUser = emptyInfo)
     } else {

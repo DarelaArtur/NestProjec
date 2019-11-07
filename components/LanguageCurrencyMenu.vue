@@ -40,7 +40,7 @@
               >
                 <template v-slot:selection="data">
                   <v-icon left>translate</v-icon>
-                  <span>{{ data.item }}</span>
+                  <span>{{ data.item | languageFilter}}</span>
                 </template>
               </v-combobox>
             </v-list-item-action>
@@ -59,7 +59,7 @@
               >
                 <template v-slot:selection="data">
                   <v-icon left>local_atm</v-icon>
-                  <span>{{ data.item }}</span>
+                  <span>{{ data.item | currencyFilter}}</span>
                 </template>
               </v-combobox>
             </v-list-item-action>
@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       menu: false,
-      languages: ['PT', 'ENG', 'ES'],
+      languages: ['PT', 'EN', 'ES'],
       currencys: ['€', '$', 'R$']
     }
   },

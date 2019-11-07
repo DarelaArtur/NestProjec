@@ -3,7 +3,7 @@
       <v-sparkline
         :value="item.value"
         color="rgba(255, 255, 255, .7)"
-        padding="10"
+        padding="15"
         smooth
         :gradient="['#f72047', '#ffd200', '#1feaea']"
         gradient-direction="top"

@@ -1,34 +1,34 @@
 <template>
   <v-layout column justify-right align-right>
-    <v-flex xs12 sm8 md6>
+    <v-flex>
       <br />
       <v-container fluid>
         <v-row dense>
-          <v-col class="d-none d-md-block" :cols="6">
+          <v-col class="hidden-sm-and-down" :cols="6">
             <salary-dashboard-md />
           </v-col>
-          <v-col class="d-none d-md-block" :cols="6">
+          <v-col class="hidden-sm-and-down" :cols="6">
             <expanses-dashboard-md />
           </v-col>
-          <v-col class="d-sm-none" :cols="12">
+          <v-col class="hidden-md-and-up" :cols="12">
             <expanses-dashboard-sm />
           </v-col>
-          <v-col class="d-sm-none" :cols="12">
+          <v-col class="hidden-md-and-up" :cols="12">
             <salary-dashboard-sm />
             <br />
           </v-col>
         </v-row>
         <v-row dense>
-          <v-col class="d-none d-md-block" :cols="6">
+          <v-col class="hidden-sm-and-down" :cols="6">
             <fixed-expenses />
           </v-col>
-          <v-col class="d-none d-md-block" :cols="6">
+          <v-col class="hidden-sm-and-down" :cols="6">
             <variable-expenses />
           </v-col>
-          <v-col class="d-sm-none" :cols="12">
+          <v-col class="hidden-md-and-up" :cols="12">
             <fixed-expenses />
           </v-col>
-          <v-col class="d-sm-none" :cols="12">
+          <v-col class="hidden-md-and-up" :cols="12">
             <variable-expenses />
           </v-col>
         </v-row>

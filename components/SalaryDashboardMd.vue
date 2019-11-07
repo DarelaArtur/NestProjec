@@ -1,10 +1,11 @@
 <template>
-    <v-card style max-width="100%">
+    <v-card style max-width="100%" height="300">
               <v-sheet
                 class="v-sheet--offset mx-auto"
                 color="#0063B1"
                 elevation="12"
                 max-width="calc(100% - 32px)"
+                 height="164"
               >
                 <v-card-title style="color:rgba(255, 255, 255, .7)">
                   <v-col>
