@@ -45,6 +45,27 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    ['nuxt-i18n', {
+      lazy:true,
+      locales: [
+        {
+          name: 'Português',
+          code: 'pt',
+          iso: 'pt-BR',
+          file: 'pt-BR.js'
+        },
+        {
+          name: 'English',
+          code: 'en',
+          iso: 'en-US',
+          file: 'en-US.js'
+        },
+      ],
+      detectBrowserLanguage: true,
+      loadLanguagesAsync: true,
+      langDir: 'lang/',
+      defaultLocale: 'en',
+    }]
   ],
   /*
   ** Axios module configuration

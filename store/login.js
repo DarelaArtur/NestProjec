@@ -45,12 +45,22 @@ export const mutations = {
         } else if ( result.data.currency == 'GBP') {
           state.infoUser.currencySymbol = '£'
         }
+
+        console.log(state.infoUser.language)
+        if(state.infoUser.language == 'PT' || state.infoUser.language == 'BR') {
+          this.$router.push($nuxt.switchLocalePath('pt'));
+          
+        } else {
+          this.$router.push($nuxt.switchLocalePath('en'));
+        }
+
       },
       error => {
         console.error(error)
       }
     )
-  }
+  
+  } 
 }
 
 export const getters = {

@@ -37,9 +37,9 @@
       <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
         <v-icon>create</v-icon>
       </v-btn>
-      <v-dialog v-model="dialog" width="800px">
+      <v-dialog v-model="dialog" width="600px">
         <v-card>
-          <v-card-title class="primary darken-2" style="color:white">Create contact</v-card-title>
+          <v-card-title class="primary darken-1" style="color:white">Create Expense</v-card-title>
           <v-container>
             <v-row>
               <v-col class="align-center justify-space-between" cols="12">

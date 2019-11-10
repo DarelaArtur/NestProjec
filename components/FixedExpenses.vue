@@ -18,8 +18,8 @@
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
           <v-icon class="hidden-sm-and-down" left>label</v-icon>
-          <span class="hidden-sm-and-down">TOTAL: €1500,00</span> 
-          <span class="hidden-md-and-up">€1500,00</span>
+          <span class="hidden-sm-and-down">TOTAL: {{ infoUser.currencySymbol }}1500,00</span> 
+          <span class="hidden-md-and-up">{{ infoUser.currencySymbol }}1500,00</span>
         </v-chip>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
@@ -73,6 +73,8 @@
   </v-data-table>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data: () => ({
     dialog: false,
@@ -109,7 +111,10 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    }
+    },
+    ...mapGetters({
+    infoUser: 'login/getInfoUser'
+  })
   },
 
   watch: {

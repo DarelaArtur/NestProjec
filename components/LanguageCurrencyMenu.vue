@@ -26,7 +26,7 @@
       </v-list>
 
       <v-divider></v-divider>
-
+      
       <v-list>
         <v-list-item>
           <v-col cols="12">
@@ -79,6 +79,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
+
 export default {
   data() {
     return {
@@ -93,7 +94,7 @@ export default {
         return this.infoUser.language
       },
       set(value) {
-        console.log(value)
+        this.$router.push(this.switchLocalePath(value.toLowerCase()));
       }
     },
     selectCurrency: {
@@ -106,7 +107,7 @@ export default {
     },
     ...mapGetters({
       infoUser: 'login/getInfoUser'
-    })
+    }),
   }
 }
 </script>

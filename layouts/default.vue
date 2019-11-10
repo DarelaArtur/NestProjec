@@ -102,7 +102,7 @@ export default {
 
   computed: mapGetters({
     authUser: 'login/getAuthUser',
-
+    infoUser: 'login/getInfoUser'
   }),
 
 
@@ -152,6 +152,7 @@ export default {
 
   beforeMount() {
     this.$store.dispatch('login/loginVerify')
+      
   }
 }
 </script>
