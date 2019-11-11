@@ -29,7 +29,7 @@
     </v-sheet>
 
     <v-card-text class="pt-0">
-      <div class="title font-weight-light mb-2">Last Months Expenses</div>
+      <div class="title font-weight-light mb-2">{{ $t('last_months_Expenses') }}</div>
       <div class="subheading font-weight-light grey--text">Last Campaign Performance</div>
       <v-divider class="my-2"></v-divider>
       <v-icon class="mr-2" small>clock</v-icon>

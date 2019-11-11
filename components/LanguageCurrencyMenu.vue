@@ -19,14 +19,14 @@
             <v-icon>language</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>Language and Currency</v-list-item-title>
+            <v-list-item-title>{{ $t('language_currency') }}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action></v-list-item-action>
         </v-list-item>
       </v-list>
 
       <v-divider></v-divider>
-      
+
       <v-list>
         <v-list-item>
           <v-col cols="12">
@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       menu: false,
-      languages: ['PT', 'EN', 'ES'],
+      languages: ['PT', 'EN'],
       currencys: ['EUR', 'USD', 'BRL', 'GBP']
     }
   },
@@ -94,7 +94,7 @@ export default {
         return this.infoUser.language
       },
       set(value) {
-        this.$router.push(this.switchLocalePath(value.toLowerCase()));
+        this.$router.replace(this.switchLocalePath(value.toLowerCase()));
       }
     },
     selectCurrency: {

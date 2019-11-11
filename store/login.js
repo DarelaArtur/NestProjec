@@ -46,12 +46,11 @@ export const mutations = {
           state.infoUser.currencySymbol = '£'
         }
 
-        console.log(state.infoUser.language)
         if(state.infoUser.language == 'PT' || state.infoUser.language == 'BR') {
-          this.$router.push($nuxt.switchLocalePath('pt'));
+          this.$router.replace($nuxt.switchLocalePath('pt'));
           
         } else {
-          this.$router.push($nuxt.switchLocalePath('en'));
+          this.$router.replace($nuxt.switchLocalePath('en'));
         }
 
       },

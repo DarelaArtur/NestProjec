@@ -33,7 +33,7 @@
             <v-list-item
               v-for="(child, i) in item.children"
               :key="i"
-              @click="$router.push({ path: child.to })"
+              @click="$router.push(localePath({ path: child.to }))"
             >
               <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
@@ -43,7 +43,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item v-else :key="item.text" @click="$router.push({ path: item.to })">
+          <v-list-item v-else :key="item.text" @click="$router.push(localePath({ path: item.to }))">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>

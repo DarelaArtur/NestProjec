@@ -3,13 +3,13 @@
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-icon left>gps_not_fixed</v-icon>
-        <v-toolbar-title class="title font-weight-light mb-2" style="color:grey">Variable Expenses</v-toolbar-title>
+        <v-toolbar-title class="title font-weight-light mb-2" style="color:grey">{{ $t('variable_expenses') }}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
 
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
           <v-icon class="hidden-sm-and-down" left>label</v-icon>
-          <span class="hidden-sm-and-down">TOTAL: {{ infoUser.currencySymbol }}1800,00</span>
+          <span class="hidden-sm-and-down">{{ $t('total') }}: {{ infoUser.currencySymbol }}1800,00</span>
           <span class="hidden-md-and-up">{{ infoUser.currencySymbol }}1800,00</span>
         </v-chip>
         <v-dialog v-model="dialog" max-width="500px">

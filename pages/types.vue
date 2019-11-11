@@ -8,12 +8,18 @@
         </template>
         <template v-slot:top>
           <v-toolbar flat color="white">
-            <v-toolbar-title>My Types</v-toolbar-title>
+            <v-toolbar-title>{{ $t('my_types') }}</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
               <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on" @click="e6 = 1">New Item</v-btn>
+                <v-btn
+                  color="primary"
+                  dark
+                  class="mb-2"
+                  v-on="on"
+                  @click="e6 = 1"
+                >{{ $t('new_item') }}</v-btn>
               </template>
               <v-card>
                 <v-card-title>
@@ -27,29 +33,37 @@
                     @click="e6 = 1"
                     style="cursor: pointer;"
                   >
-                    Select an icon
-                    <small>Please select an icon to define your types</small>
+                    {{ $t('select_icon') }}
+                    <small>{{ $t('please_select_icon') }}</small>
                   </v-stepper-step>
 
                   <v-stepper-content step="1">
                     <v-card color="grey lighten-5" class="mb-12" height="100%">
                       <v-row>
                         <v-col v-for="icon in icons" :key="icon.name">
-                          <v-icon class="mr-2" @click="selectIcon(icon)">{{ icon.name }}</v-icon>
+                          <v-icon class="mr-2" @click="selectIcon(icon)">{{ icon }}</v-icon>
                         </v-col>
                       </v-row>
-                    <small v-if="editedItem.icon">Selected:</small>
-                    <v-icon class="mr-2" color="primary" v-if="editedItem.icon">{{ editedItem.icon }}</v-icon>
+                      <small v-if="editedItem.icon">{{ $t('selected') }}:</small>
+                      <v-icon
+                        class="mr-2"
+                        color="primary"
+                        v-if="editedItem.icon"
+                      >{{ editedItem.icon }}</v-icon>
                     </v-card>
-                    <v-btn color="primary" :disabled="!editedItem.icon" @click="e6 = 2">Continue</v-btn>
-                    <v-btn text  @click="editedItem.icon = ''">Cancel</v-btn>
+                    <v-btn
+                      color="primary"
+                      :disabled="!editedItem.icon"
+                      @click="e6 = 2"
+                    >{{ $t('continue') }}</v-btn>
+                    <v-btn text @click="editedItem.icon = ''">{{ $t('cancel') }}</v-btn>
                   </v-stepper-content>
 
-                  <v-stepper-step :complete="e6 > 2" step="2">Name and Description</v-stepper-step>
+                  <v-stepper-step :complete="e6 > 2" step="2">{{ $t('name') }}</v-stepper-step>
                   <v-stepper-content step="2">
                     <v-row>
                       <v-col cols="12" sm="6" md="12">
-                        <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+                        <v-text-field v-model="editedItem.name" :label="$t('name')"></v-text-field>
                       </v-col>
                     </v-row>
                   </v-stepper-content>
@@ -57,8 +71,13 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" :disabled="!editedItem.name" text @click="save">Save</v-btn>
+                  <v-btn color="blue darken-1" text @click="close">{{ $t('cancel') }}</v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    :disabled="!editedItem.name"
+                    text
+                    @click="save"
+                  >{{ $t('save') }}</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -69,7 +88,7 @@
           <v-icon small @click="deleteItem(item)">delete</v-icon>
         </template>
         <template v-slot:no-data>
-         <span>No data available =(</span>
+          <span>No data available =(</span>
         </template>
       </v-data-table>
     </v-col>
@@ -81,7 +100,9 @@ import { mapMutations, mapGetters } from 'vuex'
 export default {
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      return this.editedIndex === -1
+        ? this.$t('new_item')
+        : this.$t('edit_item')
     },
     ...mapGetters({
       types: 'type/getTypes'
@@ -131,30 +152,54 @@ export default {
   methods: {
     initialize() {
       this.icons = [
-        {
-          name: 'emoji_transportation'
-        },
-        {
-          name: 'highlight'
-        },
-        {
-          name: 'stay_primary_portrait'
-        },
-        {
-          name: 'account_balance'
-        },
-        {
-          name: 'local_hospital'
-        },
-        {
-          name: 'home'
-        },
-        {
-          name: 'fitness_center'
-        },
-        {
-          name: 'attach_money'
-        }
+        'emoji_transportation',
+        'highlight',
+        'phone_iphone',
+        'account_balance',
+        'local_hospital',
+        'home',
+        'fitness_center',
+        'attach_money',
+        'toys',
+        'videogame_asset',
+        'watch',
+        'speaker',
+        'laptop_mac',
+        'tag_faces',
+        'local_airport',
+        'directions_subway',
+        'directions_boat',
+        'directions_bus',
+        'directions_car',
+        'local_dining',
+        'local_gas_station',
+        'local_grocery_store',
+        'local_hotel',
+        'local_laundry_service',
+        'local_pharmacy',
+        'local_pizza',
+        'transfer_within_a_station',
+        'restaurant',
+        'local_offer',
+        'store_mall_directory',
+        'local_mall',
+        'local_movies',
+        'local_shipping',
+        'local_parking',
+        'home_work',
+        'live_tv',
+        'wifi',
+        'beach_access',
+        'child_care',
+        'child_friendly',
+        'smoking_rooms',
+        'golf_course',
+        'casino',
+        'business_center',
+        'school',
+        'sports_football',
+        'sports_soccer',
+        'emoji_objects'
       ]
     },
 
@@ -179,18 +224,16 @@ export default {
     },
 
     save() {
-      if(this.editedItem.id) {
+      if (this.editedItem.id) {
         this.$store.dispatch('type/editType', this.editedItem)
-        
       } else {
         this.$store.dispatch('type/insertType', this.editedItem)
-
       }
       this.close()
     },
 
     selectIcon(icon) {
-      this.editedItem.icon = icon.name
+      this.editedItem.icon = icon
     }
   }
 }
