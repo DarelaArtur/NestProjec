@@ -105,7 +105,6 @@ export const actions = {
         // context.dispatch('teste/testeAction', null, { root: true })
         context.commit('setAuthUser', user)
         context.commit('detectUserInfo')
-        context.dispatch('dashboard/loadDashboard', user, { root: true })
 
         if (context.state.newUser) {
           context.dispatch('loadNewUserStructure')

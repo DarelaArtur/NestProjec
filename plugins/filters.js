@@ -36,3 +36,8 @@ Vue.filter('currencyFilter', function (value) {
      
     return currency;
 });
+
+Vue.filter('date', function (value) {
+      
+    return  moment(value).format('DD/MM/YYYY');
+});

@@ -155,6 +155,14 @@
         </v-card>
       </v-dialog>
     </v-flex>
+    <v-snackbar
+      v-model="snackbar"
+      color="success"
+      :timeout="2800"
+      top      
+    >
+      {{ successMessage }}
+    </v-snackbar>
   </v-layout>
 </template>
 
@@ -177,10 +185,16 @@ export default {
     money: VMoney
   },
 
-  computed: mapGetters({
+ computed: {
+    successMessage() {
+      return this.$t('expense_success_message')
+    },
+    ...mapGetters({
     infoUser: 'login/getInfoUser',
     categories: 'categories/getCategories'
   }),
+ 
+ }, 
 
   components: {
     FixedExpenses,
@@ -195,18 +209,20 @@ export default {
   },
 
   data: () => ({
-    maskAmount: {
-      decimal: '.',
-      thousands: '',
-      precision: 2,
-      masked: false
-    },
+    snackbar: false,
+  
+   maskAmount: {
+        decimal: '.',
+        thousands: '',
+        precision: 2,
+        masked: false,
+      },
     calendarMenu: false,
     formValid: true,
     selectedType: '',
     newExpense: {
       categoryId: '',
-      amount: '',
+      amount: 0,
       payday: '',
       expenseType: '',
       description: ''
@@ -220,6 +236,7 @@ export default {
     dialog: false
   }),
   beforeMount() {
+    this.$store.dispatch('dashboard/loadDashboard', moment().month())
     this.$store.dispatch('categories/loadAllCategories')
 
     console.log(moment().date())
@@ -243,10 +260,11 @@ export default {
   },
   methods: {
     cancel() {
-      this.$refs.form.reset()
+      this.resetExpense();
+      //this.$refs.form.reset()
       this.$refs.form.resetValidation()
       this.dialog = false
-      this.maskAmount = null
+      //this.maskAmount = null
     },
 
     save(newExpense) {
@@ -255,16 +273,26 @@ export default {
         currentMonth: moment().month()
       })
       this.dialog = false
-      this.maskAmount = null
+      //this.maskAmount = null
+      this.snackbar = true
     },
  
     openDialog() {
       if (this.newExpense.categoryId) {
-        this.$refs.form.reset()
         this.$refs.form.resetValidation()
       }
-
+      this.resetExpense();
       this.dialog = true
+    },
+
+    resetExpense() {
+       this.newExpense = {
+          categoryId: '',
+          amount: 0,
+          payday: '',
+          expenseType: '',
+          description: ''
+        }
     }
   }
 }

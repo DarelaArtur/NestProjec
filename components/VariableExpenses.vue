@@ -1,16 +1,45 @@
 <template>
-  <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+  <v-data-table
+    :headers="headers"
+    :items="variableExpenses"
+    sort-by="creation_date"
+    class="elevation-1"
+  >
+    <template v-slot:item.categoryId="{ item }">
+      <span v-for="category in categories" :key="category.id">
+        <v-tooltip top v-if="category.id == item.categoryId">
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+             <v-icon size="35">{{ category.icon }}</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ category.name }}</span>
+        </v-tooltip> 
+      </span>
+    </template>
+
+    <template v-slot:item.payday="{ item }">
+      {{ item.payday | date }}
+    </template>
+    
+      <template v-slot:item.amount="{ item }">
+       <v-chip :color="getColor(item.amount)" dark>{{ infoUser.currencySymbol }}{{ item.amount }}</v-chip>
+    </template>
+
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-icon left>gps_not_fixed</v-icon>
         <v-toolbar-title class="title font-weight-light mb-2" style="color:grey">{{ $t('variable_expenses') }}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
-
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
           <v-icon class="hidden-sm-and-down" left>label</v-icon>
-          <span class="hidden-sm-and-down">{{ $t('total') }}: {{ infoUser.currencySymbol }}1800,00</span>
-          <span class="hidden-md-and-up">{{ infoUser.currencySymbol }}1800,00</span>
+          <span class="hidden-sm-and-down"
+            >{{ $t('total') }}: {{ infoUser.currencySymbol }}{{ variableTotalAmount }}</span
+          >
+          <span class="hidden-md-and-up"
+            >{{ infoUser.currencySymbol }} {{ variableTotalAmount }}</span
+          >
         </v-chip>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
@@ -25,19 +54,34 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.name"
+                      label="Dessert name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.calories"
+                      label="Calories"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.fat"
+                      label="Fat (g)"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.carbs"
+                      label="Carbs (g)"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.protein"
+                      label="Protein (g)"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -52,12 +96,13 @@
         </v-dialog>
       </v-toolbar>
     </template>
+
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
       <!--v-icon small @click="deleteItem(item)">delete</v-icon-->
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
+      <span>You have no expenses yet =(</span>
     </template>
   </v-data-table>
 </template>
@@ -67,17 +112,16 @@ import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     dialog: false,
-    headers: [
+   headers: [
       {
-        text: 'Dessert (100g serving)',
+        text: 'Category',
         align: 'left',
-        sortable: false,
-        value: 'name'
+        sortable: true,
+        value: 'categoryId'
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Amount', value: 'amount' },
+      { text: 'Pay day', value: 'payday' },
+      { text: 'Description', value: 'description' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
     desserts: [],
@@ -103,7 +147,11 @@ export default {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
     ...mapGetters({
-      infoUser: 'login/getInfoUser'
+      infoUser: 'login/getInfoUser',
+      fixedExpenses: 'dashboard/getFixedExpenses',
+      variableExpenses: 'dashboard/getVariableExpenses',
+      categories: 'categories/getCategories',
+      variableTotalAmount: 'dashboard/getVariableTotalAmount'
     })
   },
 
@@ -114,84 +162,10 @@ export default {
   },
 
   created() {
-    this.initialize()
+  
   },
 
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
-        }
-      ]
-    },
 
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item)
@@ -220,7 +194,12 @@ export default {
         this.desserts.push(this.editedItem)
       }
       this.close()
-    }
+    },
+     getColor(value) {
+        if (value > 400) return 'red'
+        else if (value > 200) return 'orange'
+        else return 'green'
+      }
   }
 }
 </script>
