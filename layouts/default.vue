@@ -100,12 +100,6 @@ export default {
     LanguageCurrencyMenu
   },
 
-  computed: mapGetters({
-    authUser: 'login/getAuthUser',
-    infoUser: 'login/getInfoUser'
-  }),
-
-
   data() {
     return {
       clipped: false,
@@ -117,11 +111,16 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js',
       drawer: null,
-      items: [
-        { icon: 'contacts', text: 'Dashboard', to: '/dashboard' },
-        { icon: 'history', text: 'Login', to: '/login' },
-        { icon: 'add', text: 'Types', to: '/types' },
-        {
+     
+    }
+  },
+  computed: {
+    items() {
+      return [
+        { icon: 'dashboard', text: this.$t('dashboard'), to: '/dashboard' },
+        //{ icon: 'history', text: 'Login', to: '/login' },
+        { icon: 'category', text: this.$t('categories'), to: '/categories' },
+        /**  {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',
           text: 'Another',
@@ -141,15 +140,18 @@ export default {
             { text: 'Other contacts', to: '/inspire' }
           ]
         },
-        { icon: 'settings', text: 'Settings', to: '/inspire' },
-        { icon: 'chat_bubble', text: 'Send feedback', to: '/inspire' },
-        { icon: 'help', text: 'Help', to: '/inspire' },
-        { icon: 'phonelink', text: 'App downloads', to: '/inspire' },
-        { icon: 'keyboard', text: 'Go to the old version', to: '/inspire' }
+        { icon: 'settings', text: 'Settings', to: '/inspire' },*/
+        { icon: 'chat_bubble', text: this.$t('send_feedback'), to: '/inspire' },
+        { icon: 'help', text: this.$t('help'), to: '/inspire' },
+       //{ icon: 'phonelink', text: 'App downloads', to: '/inspire' },
+       //{ icon: 'keyboard', text: 'Go to the old version', to: '/inspire' }
       ]
-    }
+    },
+    ...mapGetters({
+       authUser: 'login/getAuthUser',
+       infoUser: 'login/getInfoUser'
+    })
   },
-
   beforeMount() {
     this.$store.dispatch('login/loginVerify')
       

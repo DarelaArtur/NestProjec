@@ -1,14 +1,14 @@
 <template>
   <v-row dense>
     <v-col :cols="12">
-      <v-data-table :headers="headers" :items="types" sort-by="name" class="elevation-1">
+      <v-data-table :headers="headers" :items="categories" sort-by="name" class="elevation-1">
         <template v-slot:item.icon="{ item }">
           <v-icon size="35" alt="Transport">{{ item.icon }}</v-icon>
           <!--v-chip color="green" dark>{{ item.type }}</v-chip-->
         </template>
         <template v-slot:top>
           <v-toolbar flat color="white">
-            <v-toolbar-title>{{ $t('my_types') }}</v-toolbar-title>
+            <v-toolbar-title>{{ $t('categories') }}</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
@@ -22,10 +22,8 @@
                 >{{ $t('new_item') }}</v-btn>
               </template>
               <v-card>
-                <v-card-title>
-                  <span class="headline">{{ formTitle }}</span>
-                </v-card-title>
-
+                 <v-card-title class="primary darken-1" style="color:white">{{ formTitle }}</v-card-title>
+                
                 <v-stepper v-model="e6" vertical>
                   <v-stepper-step
                     :complete="e6 > 1"
@@ -105,7 +103,7 @@ export default {
         : this.$t('edit_item')
     },
     ...mapGetters({
-      types: 'type/getTypes'
+      categories: 'categories/getCategories'
     })
   },
 
@@ -142,7 +140,7 @@ export default {
   },
 
   beforeMount() {
-    this.$store.dispatch('type/loadAllTypes')
+    //this.$store.dispatch('type/loadAllTypes')
   },
 
   created() {
@@ -204,7 +202,7 @@ export default {
     },
 
     editItem(item) {
-      this.editedIndex = this.types.indexOf(item)
+      this.editedIndex = this.categories.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
       this.e6 = 1
@@ -212,7 +210,7 @@ export default {
 
     deleteItem(item) {
       confirm('Are you sure you want to delete this item?') &&
-        this.$store.dispatch('type/removeType', item)
+        this.$store.dispatch('categories/removeCategory', item)
     },
 
     close() {
@@ -225,9 +223,9 @@ export default {
 
     save() {
       if (this.editedItem.id) {
-        this.$store.dispatch('type/editType', this.editedItem)
+        this.$store.dispatch('categories/editCategory', this.editedItem)
       } else {
-        this.$store.dispatch('type/insertType', this.editedItem)
+        this.$store.dispatch('categories/insertCategory', this.editedItem)
       }
       this.close()
     },

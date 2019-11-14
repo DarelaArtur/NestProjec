@@ -154,7 +154,7 @@ export const actions = {
       // Get a key for a new Post.
       var newPostKey = dbDefault
         .ref()
-        .child('project/' + context.state.authUser.uid + '/types')
+        .child('project/' + context.state.authUser.uid + '/categories')
         .push().key
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -163,9 +163,9 @@ export const actions = {
       updates[
         'project/' +
           context.state.authUser.uid +
-          '/types/' +
+          '/categories/' +
           newPostKey +
-          '/type'
+          '/category'
       ] = type
       dbDefault.ref().update(updates)
     })

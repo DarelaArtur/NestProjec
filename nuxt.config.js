@@ -30,7 +30,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~plugins/filters.js'
+    '~plugins/filters.js',
+    '~plugins/vue-the-mask.js',
+    '~plugins/v-money.js'
   ],
   /*
   ** Nuxt.js dev-modules

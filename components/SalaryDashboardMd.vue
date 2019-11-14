@@ -39,7 +39,7 @@
 
               <v-card-text class="pt-0">
                 <div class="title font-weight-light mb-2">{{ $t('monthly_expenses') }}</div>
-                <div class="subheading font-weight-light grey--text">{{ $t('current_month') }}
+                <div class="subheading font-weight-light grey--text">{{ $t('current_month') }}:
                   <v-chip
                     class="ma-2"
                     small
