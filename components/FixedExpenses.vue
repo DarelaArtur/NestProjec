@@ -4,6 +4,8 @@
     :items="fixedExpenses"
     sort-by="creation_date"
     class="elevation-1"
+    :loading="loading" 
+    loading-text="Loading... Please wait"
   >
     <template v-slot:item.categoryId="{ item }">
       <span v-for="category in categories" :key="category.id">
@@ -26,6 +28,15 @@
        <v-chip :color="getColor(item.amount)" dark>{{ infoUser.currencySymbol }}{{ item.amount }}</v-chip>
     </template>
 
+    <template v-slot:item.action="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+      <!--v-icon small @click="deleteItem(item)">delete</v-icon-->
+    </template>
+
+    <template v-slot:no-data>
+      <span>No expenses yet =(</span>
+    </template>
+
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-icon left>gps_fixed</v-icon>
@@ -37,7 +48,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
-          <v-icon class="hidden-sm-and-down" left>label</v-icon>
+          <v-icon class="hidden-sm-and-down" left size="20">trending_down</v-icon>
           <span class="hidden-sm-and-down"
             >{{ $t('total') }}: {{ infoUser.currencySymbol }}{{ fixedTotalAmount }}</span
           >
@@ -100,14 +111,6 @@
         </v-dialog>
       </v-toolbar>
     </template>
-
-    <template v-slot:item.action="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-      <!--v-icon small @click="deleteItem(item)">delete</v-icon-->
-    </template>
-    <template v-slot:no-data>
-      <span>You have no expenses yet =(</span>
-    </template>
   </v-data-table>
 </template>
 <script>
@@ -116,6 +119,7 @@ import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     dialog: false,
+    loading: false,
     headers: [
       {
         text: 'Category',
@@ -162,10 +166,17 @@ export default {
   watch: {
     dialog(val) {
       val || this.close()
-    }
+    },
+     loading (val) {
+        val && setTimeout(() => {
+          this.loading = false
+        }, 2000)
+      },
   },
 
-  created() {},
+  created() {
+   this.loading = true 
+  },
 
   methods: {
     editItem(item) {

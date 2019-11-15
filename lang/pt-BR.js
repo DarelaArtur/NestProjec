@@ -14,7 +14,7 @@ export default {
     select_icon: 'Selecione um ícone',
     please_select_icon : 'Por favor selecione um ícone para definir a sua categoria',
     edit_item: 'Editar Item',
-    selected: 'Selecionado',
+    selected: 'Seu ícone selecionado',
     continue: 'Continuar',
     cancel: 'Cancelar',
     name: 'Nome',

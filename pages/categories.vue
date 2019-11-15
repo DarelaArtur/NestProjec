@@ -4,7 +4,6 @@
       <v-data-table :headers="headers" :items="categories" sort-by="name" class="elevation-1">
         <template v-slot:item.icon="{ item }">
           <v-icon size="35" alt="Transport">{{ item.icon }}</v-icon>
-          <!--v-chip color="green" dark>{{ item.type }}</v-chip-->
         </template>
         <template v-slot:top>
           <v-toolbar flat color="white">
@@ -31,8 +30,14 @@
                     @click="e6 = 1"
                     style="cursor: pointer;"
                   >
-                    {{ $t('select_icon') }}
-                    <small>{{ $t('please_select_icon') }}</small>
+                   <span v-if="editedItem.icon">{{ $t('selected') }}: </span>
+                      <v-icon
+                        class="mr-2"
+                        color="primary"
+                        v-if="editedItem.icon"
+                      >{{ editedItem.icon }}</v-icon>
+                    <span v-if="!editedItem.icon">{{ $t('select_icon') }}</span>
+                    <small v-if="!editedItem.icon">{{ $t('please_select_icon') }}</small>
                   </v-stepper-step>
 
                   <v-stepper-content step="1">
@@ -42,22 +47,22 @@
                           <v-icon class="mr-2" @click="selectIcon(icon)">{{ icon }}</v-icon>
                         </v-col>
                       </v-row>
-                      <small v-if="editedItem.icon">{{ $t('selected') }}:</small>
+                      <!--small v-if="editedItem.icon">{{ $t('selected') }}:</small>
                       <v-icon
                         class="mr-2"
                         color="primary"
                         v-if="editedItem.icon"
-                      >{{ editedItem.icon }}</v-icon>
+                      >{{ editedItem.icon }}</v-icon-->
                     </v-card>
-                    <v-btn
+                    <!--v-btn
                       color="primary"
                       :disabled="!editedItem.icon"
                       @click="e6 = 2"
                     >{{ $t('continue') }}</v-btn>
-                    <v-btn text @click="editedItem.icon = ''">{{ $t('cancel') }}</v-btn>
+                    <v-btn text @click="editedItem.icon = ''">{{ $t('cancel') }}</v-btn-->
                   </v-stepper-content>
 
-                  <v-stepper-step :complete="e6 > 2" step="2">{{ $t('name') }}</v-stepper-step>
+                  <v-stepper-step :complete="e6 > 2" step="2" style="cursor: pointer;" @click="switchTo()">{{ $t('name') }}</v-stepper-step>
                   <v-stepper-content step="2">
                     <v-row>
                       <v-col cols="12" sm="6" md="12">
@@ -232,7 +237,15 @@ export default {
 
     selectIcon(icon) {
       this.editedItem.icon = icon
+      this.e6 = 2
+    },
+
+    switchTo() {
+      if(this.editedItem.icon) {
+        this.e6 = 2
+      }
     }
+
   }
 }
 </script>

@@ -4,6 +4,8 @@
     :items="variableExpenses"
     sort-by="creation_date"
     class="elevation-1"
+    :loading="loading" 
+    loading-text="Loading... Please wait"
   >
     <template v-slot:item.categoryId="{ item }">
       <span v-for="category in categories" :key="category.id">
@@ -33,7 +35,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
-          <v-icon class="hidden-sm-and-down" left>label</v-icon>
+          <v-icon class="hidden-sm-and-down" left size="20">trending_down</v-icon>
           <span class="hidden-sm-and-down"
             >{{ $t('total') }}: {{ infoUser.currencySymbol }}{{ variableTotalAmount }}</span
           >
@@ -102,7 +104,7 @@
       <!--v-icon small @click="deleteItem(item)">delete</v-icon-->
     </template>
     <template v-slot:no-data>
-      <span>You have no expenses yet =(</span>
+     <span>No expenses yet =(</span>
     </template>
   </v-data-table>
 </template>
@@ -112,6 +114,7 @@ import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     dialog: false,
+    loading: false,
    headers: [
       {
         text: 'Category',
@@ -158,11 +161,16 @@ export default {
   watch: {
     dialog(val) {
       val || this.close()
-    }
+    },
+      loading (val) {
+        val && setTimeout(() => {
+          this.loading = false
+        }, 2000)
+      },
   },
 
   created() {
-  
+   this.loading = true
   },
 
   methods: {

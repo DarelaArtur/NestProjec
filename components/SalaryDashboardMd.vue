@@ -60,12 +60,13 @@ import momentTimezone from "moment-timezone"
 
 export default {
   data: () => ({
-    currentMonth: moment().month()
+    currentMonth: moment().month(),
   }),
   
   computed: mapGetters({
     infoUser: 'login/getInfoUser'
-  })
+  }),
+
 }
 </script>
 <style>

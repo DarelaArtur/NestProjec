@@ -97,7 +97,7 @@ export default {
       overlay (val) {
         val && setTimeout(() => {
           this.overlay = false
-        }, 3000)
+        }, 5000)
       },
     },
   }
