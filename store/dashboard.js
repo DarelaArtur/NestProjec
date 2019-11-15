@@ -6,8 +6,11 @@ export const state = () => ({
   dashBoard: '',
   fixedExpenses: [],
   variableExpenses: [],
-  fixedTotalAmount: 0.00,
-  variableTotalAmount: 0.00,
+  fixedTotalAmount: '0.00',
+  variableTotalAmount: '0.00',
+  totalExpenses: '0.00',
+  salary: '0.00',
+  balance: '0.00',
 
 })
 
@@ -29,7 +32,7 @@ export const mutations = {
           id: childSnapshot.key
         }
         
-        state.fixedTotalAmount = Number(state.fixedTotalAmount) + Number(expense.amount)
+        state.fixedTotalAmount = parseFloat(Number(state.fixedTotalAmount) + Number(expense.amount)).toFixed(2)
         expensesList.push(expense)
       })
       state.fixedExpenses = expensesList
@@ -48,10 +51,19 @@ export const mutations = {
           payday : childSnapshot.val().expense.payday,
           id: childSnapshot.key
         }
-        state.variableTotalAmount = Number(state.variableTotalAmount) + Number(expense.amount)
+        state.variableTotalAmount = parseFloat(Number(state.variableTotalAmount) + Number(expense.amount)).toFixed(2) 
         expensesList.push(expense)
       })
       state.variableExpenses = expensesList
+    })
+
+    dbDefault.ref('/project/' + user.uid + '/expenses/'+ currentMonth + '/salaryCard').on('value', snapshot => {
+      if(snapshot.val() && snapshot.val().salary) {
+        state.salary = parseFloat(Number(snapshot.val().salary)).toFixed(2) 
+
+      } else {
+        state.salary = '0.00'
+      }
     })
     
   },
@@ -66,6 +78,12 @@ export const mutations = {
     updates['project/' + user.uid + '/expenses/'+ currentMonth +'/' + expense.expenseType +'/'+ newExpenseKey + '/expense'] = expense
     dbDefault.ref().update(updates)
 
+  },
+
+  saveSalary(state, {salary, currentMonth, user}) {
+    var updates = {}
+    updates['/project/' + user.uid + '/expenses/'+ currentMonth + '/salaryCard/salary'] = salary
+    dbDefault.ref().update(updates)
   }
 }
 
@@ -88,8 +106,21 @@ export const getters = {
 
   getVariableTotalAmount(state) {
     return state.variableTotalAmount
-  }
+  },
 
+  getTotalExpenses(state) {
+    state.totalExpenses = parseFloat(Number(state.fixedTotalAmount) + Number(state.variableTotalAmount)).toFixed(2)
+    return state.totalExpenses
+  },
+
+  getSalary(state) {
+    return state.salary
+  },
+
+  getBalance(state) {
+    state.balance = parseFloat(Number(state.salary) - Number(state.totalExpenses)).toFixed(2)
+    return state.balance
+  },
 
 }
 
@@ -101,5 +132,9 @@ export const actions = {
   createExpanse(context, {expense, currentMonth}) {
 
     context.commit('createNewExpense', {expense, currentMonth, user: context.rootState.login.authUser})
+  },
+
+  saveMySalary(context, {salary, currentMonth}) {
+    context.commit('saveSalary', {salary, currentMonth, user: context.rootState.login.authUser})
   }
 }

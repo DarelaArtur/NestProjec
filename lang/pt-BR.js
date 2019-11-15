@@ -36,5 +36,6 @@ export default {
     send_feedback: 'Fale Conosco',
     help: 'Ajuda',
     expense_success_message: 'Um grande passo foi dado! Sua despesa foi cadastrada com sucesso.',
+    my_salary: 'Meu Salário',
 
   }

@@ -36,6 +36,7 @@ export default {
     send_feedback: 'Send feedback',
     help: 'Help',
     expense_success_message: 'A big step has been taken! Your expense has been successfully registered.',
+    my_salary: 'My Salary',
 
 
   }
