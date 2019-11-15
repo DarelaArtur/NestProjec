@@ -43,9 +43,35 @@
       </div>
       <div class="subheading font-weight-light grey--text">
         {{ $t('current_month') }}:
-        <v-chip class="ma-2" small>
-          {{ currentMonth | stringMonth }}
-        </v-chip>
+        <v-menu
+          v-model="calendarMenu"
+          :close-on-content-click="true"
+          transition="scale-transition"
+          offset-z
+          max-width="290px"
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <!--v-text-field
+                        v-model="newExpense.payday"
+                        :label="$t('payday')"
+                        :rules="[rules.required]"
+                        persistent-hint
+                        prepend-inner-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field-->
+            <v-chip class="ma-2" small v-on="on">
+              {{ currentMonth | stringMonth }}
+            </v-chip>
+          </template>
+          <v-date-picker
+            type="month"
+            v-model="newCurrentMonth"
+            no-title
+            @input="calendarMenu = false"
+          ></v-date-picker>
+        </v-menu>
       </div>
       <v-divider class="my-2"></v-divider>
       <v-icon class="mr-2" small>clock</v-icon>
@@ -99,10 +125,10 @@ export default {
   },
 
   data: () => ({
+    calendarMenu: false,
     dialog: false,
     formValid: false,
     mySalary: '0.00',
-    currentMonth: moment().month(),
     maskAmount: {
       decimal: '.',
       thousands: '',
@@ -111,12 +137,23 @@ export default {
     }
   }),
 
-  computed: mapGetters({
-    infoUser: 'login/getInfoUser',
-    totalExpenses: 'dashboard/getTotalExpenses',
-    salary: 'dashboard/getSalary',
-    balance: 'dashboard/getBalance'
-  }),
+  computed: {
+    newCurrentMonth: {
+      get() {
+        return this.currentMonth
+      },
+      set(value) {
+        this.$store.dispatch('dashboard/selectMonth', value)
+      }
+    },
+    ...mapGetters({
+      infoUser: 'login/getInfoUser',
+      totalExpenses: 'dashboard/getTotalExpenses',
+      salary: 'dashboard/getSalary',
+      balance: 'dashboard/getBalance',
+      currentMonth: 'dashboard/getCurrentMonth',    
+    })
+  },
 
   methods: {
     cancel() {
@@ -126,7 +163,7 @@ export default {
     save(mySalary) {
       this.$store.dispatch('dashboard/saveMySalary', {
         salary: mySalary,
-        currentMonth: moment().month()
+        currentMonth: this.currentMonth
       })
 
       this.dialog = false

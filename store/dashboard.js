@@ -1,5 +1,8 @@
 import firebase from '~/plugins/firebase'
 import {dbDefault} from '~/plugins/firebase'
+import moment from 'moment'
+import momentTimezone from 'moment-timezone'
+
 export const strict = false
 
 export const state = () => ({
@@ -11,6 +14,7 @@ export const state = () => ({
   totalExpenses: '0.00',
   salary: '0.00',
   balance: '0.00',
+  currentMonth: moment().format('YYYY-MM')
 
 })
 
@@ -84,6 +88,10 @@ export const mutations = {
     var updates = {}
     updates['/project/' + user.uid + '/expenses/'+ currentMonth + '/salaryCard/salary'] = salary
     dbDefault.ref().update(updates)
+  },
+
+  selecOtherMonth(state, newMonth) {
+    state.currentMonth = newMonth
   }
 }
 
@@ -122,6 +130,10 @@ export const getters = {
     return state.balance
   },
 
+  getCurrentMonth(state) {
+    return state.currentMonth 
+  }
+
 }
 
 export const actions = {
@@ -136,5 +148,11 @@ export const actions = {
 
   saveMySalary(context, {salary, currentMonth}) {
     context.commit('saveSalary', {salary, currentMonth, user: context.rootState.login.authUser})
+  },
+
+  selectMonth(context, newMonth) {
+    context.commit('selecOtherMonth', newMonth)
+    context.dispatch('loadDashboard', newMonth)
   }
+
 }

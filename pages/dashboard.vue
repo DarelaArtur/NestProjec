@@ -191,7 +191,8 @@ export default {
     },
     ...mapGetters({
     infoUser: 'login/getInfoUser',
-    categories: 'categories/getCategories'
+    categories: 'categories/getCategories',
+    currentMonth: 'dashboard/getCurrentMonth',
   }),
  
  }, 
@@ -236,10 +237,10 @@ export default {
     dialog: false
   }),
   beforeMount() {
-    this.$store.dispatch('dashboard/loadDashboard', moment().month())
+    this.$store.dispatch('dashboard/loadDashboard', this.currentMonth)
     this.$store.dispatch('categories/loadAllCategories')
 
-    console.log(moment().date())
+    /** console.log(moment().date())
     console.log(moment().month())
     console.log(moment().year())
 
@@ -256,7 +257,7 @@ export default {
       moment()
         .month(moment().month())
         .format('MMMM')
-    )
+    ) */
   },
   methods: {
     cancel() {
@@ -270,7 +271,7 @@ export default {
     save(newExpense) {
       this.$store.dispatch('dashboard/createExpanse', {
         expense: newExpense,
-        currentMonth: moment().month()
+        currentMonth: this.currentMonth
       })
       this.dialog = false
       //this.maskAmount = null
