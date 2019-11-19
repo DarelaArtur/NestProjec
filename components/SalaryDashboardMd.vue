@@ -47,7 +47,7 @@
           v-model="calendarMenu"
           :close-on-content-click="true"
           transition="scale-transition"
-          offset-z
+          offset-x
           max-width="290px"
           min-width="290px"
         >

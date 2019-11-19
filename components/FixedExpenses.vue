@@ -4,7 +4,7 @@
     :items="fixedExpenses"
     sort-by="creation_date"
     class="elevation-1"
-    :loading="loading" 
+    :loading="loading"
     loading-text="Loading... Please wait"
   >
     <template v-slot:item.categoryId="{ item }">
@@ -12,25 +12,33 @@
         <v-tooltip top v-if="category.id == item.categoryId">
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
-             <v-icon size="35">{{ category.icon }}</v-icon>
+              <v-icon size="35">{{ category.icon }}</v-icon>
             </v-btn>
           </template>
           <span>{{ category.name }}</span>
-        </v-tooltip> 
+        </v-tooltip>
       </span>
     </template>
-    
+
     <template v-slot:item.payday="{ item }">
       {{ item.payday | date }}
     </template>
-    
+
     <template v-slot:item.amount="{ item }">
-       <v-chip :color="getColor(item.amount)" dark>{{ infoUser.currencySymbol }}{{ item.amount }}</v-chip>
+      <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+                    <v-chip :color="getColor(item.amount)" dark
+        >{{ infoUser.currencySymbol }}{{ item.amount }}</v-chip>
+            </v-btn>
+          </template>
+          <span v-if="item.description">{{ item.description }}</span>
+        </v-tooltip>
     </template>
 
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-      <!--v-icon small @click="deleteItem(item)">delete</v-icon-->
+      <v-icon small @click="deleteItem(item)">delete</v-icon>
     </template>
 
     <template v-slot:no-data>
@@ -48,67 +56,17 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-chip class="ma-2" color="primary" label text-color="white">
-          <v-icon class="hidden-sm-and-down" left size="20">trending_down</v-icon>
+          <v-icon class="hidden-sm-and-down" left size="20"
+            >trending_down</v-icon
+          >
           <span class="hidden-sm-and-down"
-            >{{ $t('total') }}: {{ infoUser.currencySymbol }}{{ fixedTotalAmount }}</span
+            >{{ $t('total') }}: {{ infoUser.currencySymbol
+            }}{{ fixedTotalAmount }}</span
           >
           <span class="hidden-md-and-up"
             >{{ infoUser.currencySymbol }}{{ fixedTotalAmount }}</span
           >
         </v-chip>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <!--v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn-->
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-toolbar>
     </template>
   </v-data-table>
@@ -118,7 +76,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
-    dialog: false,
     loading: false,
     headers: [
       {
@@ -129,91 +86,52 @@ export default {
       },
       { text: 'Amount', value: 'amount' },
       { text: 'Pay day', value: 'payday' },
-      { text: 'Description', value: 'description' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
-    },
-    defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
-    }
   }),
 
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    },
     ...mapGetters({
       infoUser: 'login/getInfoUser',
       fixedExpenses: 'dashboard/getFixedExpenses',
-      variableExpenses: 'dashboard/getVariableExpenses',
       categories: 'categories/getCategories',
-      fixedTotalAmount: 'dashboard/getFixedTotalAmount'
+      fixedTotalAmount: 'dashboard/getFixedTotalAmount',
+      currentMonth: 'dashboard/getCurrentMonth'
     })
   },
 
   watch: {
-    dialog(val) {
-      val || this.close()
-    },
-     loading (val) {
-        val && setTimeout(() => {
+    loading(val) {
+      val &&
+        setTimeout(() => {
           this.loading = false
         }, 2000)
-      },
+    }
   },
 
   created() {
-   this.loading = true 
+    this.loading = true
   },
 
   methods: {
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.$nuxt.$emit('OPEN_EDIT_DIALOG', this.editedItem)
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item)
       confirm('Are you sure you want to delete this item?') &&
-        this.desserts.splice(index, 1)
+        this.$store.dispatch('dashboard/removeExpense', {
+          expense: item,
+          currentMonth: this.currentMonth
+        })
     },
 
-    close() {
-      this.dialog = false
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      }, 300)
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
-      }
-      this.close()
-    },
-
-     getColor(value) {
-        if (value > 400) return 'red'
-        else if (value > 200) return 'orange'
-        else return 'green'
-      },
-
+    getColor(value) {
+      if (value > 400) return 'red'
+      else if (value > 200) return 'orange'
+      else return 'green'
+    }
   }
 }
 </script>

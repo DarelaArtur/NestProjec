@@ -20,6 +20,7 @@ export default {
     name: 'Nome',
     save: 'Salvar',
     new_expense: 'Nova Despesa',
+    edit_expense: 'Editar Despesa',
     type: 'Categoria',
     amount: 'Valor',
     payday: 'Data do Pagamento',

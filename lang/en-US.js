@@ -20,6 +20,7 @@ export default {
     name: 'Name',
     save: 'Save',
     new_expense: 'New Expense',
+    edit_expense: 'Edit Expense',
     type: 'Category',
     amount: 'Amount',
     payday: 'Payday',

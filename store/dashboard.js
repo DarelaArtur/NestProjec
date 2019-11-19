@@ -84,6 +84,26 @@ export const mutations = {
 
   },
 
+  updateExpense(state, {expense, currentMonth, user}) {
+    var expenseId = expense.id
+    delete expense.id
+    var updates = {}
+    updates['project/' + user.uid + '/expenses/'+ currentMonth +'/' + expense.expenseType +'/'+ expenseId + '/expense'] = expense
+    dbDefault.ref().update(updates)
+  },
+
+  deleteExpense(state, {expense, currentMonth, user}) { 
+    dbDefault
+    .ref('/project/' + user.uid + '/expenses/'+ currentMonth +'/' + expense.expenseType +'/'+ expense.id + '/expense')
+    .remove(function(error) {
+      if (error) {
+        console.log(error)
+      } else {
+        // Success data has been created.
+      }
+    })
+  },
+
   saveSalary(state, {salary, currentMonth, user}) {
     var updates = {}
     updates['/project/' + user.uid + '/expenses/'+ currentMonth + '/salaryCard/salary'] = salary
@@ -141,8 +161,7 @@ export const actions = {
     context.commit('loadDefaultDashboard', { user: context.rootState.login.authUser, currentMonth })
   },
 
-  createExpanse(context, {expense, currentMonth}) {
-
+  createExpense(context, {expense, currentMonth}) {
     context.commit('createNewExpense', {expense, currentMonth, user: context.rootState.login.authUser})
   },
 
@@ -153,6 +172,15 @@ export const actions = {
   selectMonth(context, newMonth) {
     context.commit('selecOtherMonth', newMonth)
     context.dispatch('loadDashboard', newMonth)
+  },
+
+  editExpense(context, {expense, currentMonth}) {
+    context.commit('updateExpense', {expense, currentMonth, user: context.rootState.login.authUser})
+  },
+
+  removeExpense(context, {expense, currentMonth}) {
+    context.commit('deleteExpense', {expense, currentMonth, user: context.rootState.login.authUser})
   }
+
 
 }
