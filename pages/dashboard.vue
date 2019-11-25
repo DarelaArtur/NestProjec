@@ -88,6 +88,8 @@ import ExpensesByCategories from '~/components/ExpensesByCategories.vue'
 
 import { mapGetters } from 'vuex'
 
+import moment from 'moment'
+
 export default {
   components: {
     FixedExpenses,
@@ -108,7 +110,7 @@ export default {
     newExpense: {
       categoryId: '',
       amount: '',
-      payday: '',
+      payday: moment().format('YYYY-MM-DD'),
       expenseType: '',
       description: ''
     }
@@ -151,7 +153,7 @@ export default {
       this.newExpense = {
         categoryId: '',
         amount: '',
-        payday: '',
+        payday: moment().format('YYYY-MM-DD'),
         expenseType: '',
         description: ''
       }
