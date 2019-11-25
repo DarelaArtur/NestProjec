@@ -25,7 +25,7 @@ export default {
     amount: 'Valor',
     payday: 'Data do Pagamento',
     kind_expanse: 'Qual o tipo de despesa?',
-    fixed: 'Fixa',
+    fixed: 'Fixo',
     same_amount: 'Mesmo valor todo mês.',
     variable: 'Variável',
     changes_amount: 'O valor muda todo mês.',
@@ -38,5 +38,9 @@ export default {
     help: 'Ajuda',
     expense_success_message: 'Um grande passo foi dado! Sua despesa foi cadastrada com sucesso.',
     my_salary: 'Meu Salário',
+    expenses_by_category: 'Despesas por Categorias',
+    itens_per_page: 'Itens por página',
+    page: 'Página',
+    of: 'de',
 
   }

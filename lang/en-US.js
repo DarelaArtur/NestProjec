@@ -38,6 +38,10 @@ export default {
     help: 'Help',
     expense_success_message: 'A big step has been taken! Your expense has been successfully registered.',
     my_salary: 'My Salary',
+    expenses_by_category: 'Expenses by Categories',
+    itens_per_page: 'Items per page',
+    page: 'Page',
+    of: 'of',
 
 
   }

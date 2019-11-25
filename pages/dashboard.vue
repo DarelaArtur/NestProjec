@@ -18,28 +18,57 @@
             <br />
           </v-col>
         </v-row>
-        <v-row dense>
-          <v-col class="hidden-sm-and-down" :cols="6">
-            <fixed-expenses />
-          </v-col>
-          <v-col class="hidden-sm-and-down" :cols="6">
-            <variable-expenses />
-          </v-col>
-          <v-col class="hidden-md-and-up" :cols="12">
-            <fixed-expenses />
-          </v-col>
-          <v-col class="hidden-md-and-up" :cols="12">
-            <variable-expenses />
-          </v-col>
-        </v-row>
+
+        <v-tabs
+          v-model="tabs"
+          centered
+          fixed-tabs
+          background-color="primary"
+          dark
+        >
+          <v-tabs-slider color="#9e9e9e"></v-tabs-slider>
+          <v-tab>
+            <v-icon left>assignment</v-icon>
+            {{ $t('expenses') }}
+          </v-tab>
+          <v-tab>
+             <v-icon left>bar_chart</v-icon>
+            {{ $t('expenses_by_category') }}
+          </v-tab>
+        </v-tabs>
+
+        <v-tabs-items v-model="tabs">
+          <v-tab-item>
+            <v-row dense>
+              <v-col class="hidden-sm-and-down" :cols="6">
+                <fixed-expenses />
+              </v-col>
+              <v-col class="hidden-sm-and-down" :cols="6">
+                <variable-expenses />
+              </v-col>
+              <v-col class="hidden-md-and-up" :cols="12">
+                <fixed-expenses />
+              </v-col>
+              <v-col class="hidden-md-and-up" :cols="12">
+                <variable-expenses />
+              </v-col>
+            </v-row>
+          </v-tab-item>
+          <v-tab-item>
+              <expenses-by-categories/>
+          </v-tab-item>
+        </v-tabs-items>
       </v-container>
 
       <v-btn bottom color="pink" dark fab fixed right @click="openDialog()">
         <v-icon>create</v-icon>
       </v-btn>
-   
-      <expense-modal :newExpense="newExpense" :dialog="dialog" :isUpdate="isUpdateExpense" />
-   
+
+      <expense-modal
+        :newExpense="newExpense"
+        :dialog="dialog"
+        :isUpdate="isUpdateExpense"
+      />
     </v-flex>
     <v-snackbar v-model="snackbar" color="success" :timeout="2800" top>
       {{ successMessage }}
@@ -55,6 +84,7 @@ import ExpansesDashboardMd from '~/components/ExpansesDashboardMd.vue'
 import SalaryDashboardSm from '~/components/SalaryDashboardSm.vue'
 import ExpansesDashboardSm from '~/components/ExpansesDashboardSm.vue'
 import ExpenseModal from '~/components/ExpenseModal.vue'
+import ExpensesByCategories from '~/components/ExpensesByCategories.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -66,10 +96,12 @@ export default {
     ExpansesDashboardMd,
     SalaryDashboardSm,
     ExpansesDashboardSm,
-    ExpenseModal
+    ExpenseModal,
+    ExpensesByCategories
   },
 
   data: () => ({
+    tabs: null,
     snackbar: false,
     dialog: false,
     isUpdateExpense: false,
@@ -101,14 +133,13 @@ export default {
     this.$nuxt.$on('OPEN_EDIT_DIALOG', data => {
       this.dialog = true
       this.isUpdateExpense = true
-      this.newExpense = data;
+      this.newExpense = data
     })
   },
 
   beforeMount() {
     this.$store.dispatch('dashboard/loadDashboard', this.currentMonth)
     this.$store.dispatch('categories/loadAllCategories')
-
   },
   methods: {
     openDialog() {
