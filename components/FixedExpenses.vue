@@ -42,7 +42,10 @@
     </template>
 
     <template v-slot:no-data>
-      <span>No expenses yet =(</span>
+      <span v-if="!lastFixedExpenses">No expenses yet =(</span>
+     <v-btn v-else class="ma-2" outlined color="primary" @click="copyLastMonth">
+      <v-icon left>file_copy</v-icon> Copy Last Month Expenses
+    </v-btn>
     </template>
 
     <template v-slot:top>
@@ -96,7 +99,8 @@ export default {
       fixedExpenses: 'dashboard/getFixedExpenses',
       categories: 'categories/getCategories',
       fixedTotalAmount: 'dashboard/getFixedTotalAmount',
-      currentMonth: 'dashboard/getCurrentMonth'
+      currentMonth: 'dashboard/getCurrentMonth',
+      lastFixedExpenses: 'dashboard/getLastFixedExpenses'
     })
   },
 
@@ -110,6 +114,7 @@ export default {
   },
 
   created() {
+    this.checkExpensesLastMonth()
     this.loading = true
   },
 
@@ -131,7 +136,17 @@ export default {
       if (value > 400) return 'red'
       else if (value > 200) return 'orange'
       else return 'green'
+    },
+
+    checkExpensesLastMonth() {
+      this.$store.dispatch('dashboard/checkLastExpenses')
+    },
+
+    copyLastMonth() {
+      console.log("copying...")
+      this.$store.dispatch('dashboard/copyLastExpenses')
     }
+
   }
 }
 </script>
