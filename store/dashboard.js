@@ -174,6 +174,10 @@ export const actions = {
     context.dispatch('loadDashboard', newMonth)
   },
 
+  setCurrentMonth(context, newMonth) {
+    context.commit('selecOtherMonth', newMonth)
+  },
+
   editExpense(context, {expense, currentMonth}) {
     context.commit('updateExpense', {expense, currentMonth, user: context.rootState.login.authUser})
   },

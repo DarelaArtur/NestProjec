@@ -1,6 +1,7 @@
 import firebase from '~/plugins/firebase'
 import { dbDefault } from '~/plugins/firebase'
 import axios from 'axios'
+import moment from 'moment'
 
 export const strict = false
 
@@ -102,7 +103,7 @@ export const actions = {
       if (user) {
         console.log('Authenticate...', user)
         // console.log(context.rootState.teste.teste);
-        // context.dispatch('teste/testeAction', null, { root: true })
+        context.dispatch('dashboard/setCurrentMonth', moment().format('YYYY-MM'), { root: true })
         context.commit('setAuthUser', user)
         context.commit('detectUserInfo')
 
