@@ -42,5 +42,6 @@ export default {
     itens_per_page: 'Itens por página',
     page: 'Página',
     of: 'de',
+    copy_last_expenses: 'Copiar do mês passado',
 
   }

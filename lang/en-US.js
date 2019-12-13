@@ -42,6 +42,7 @@ export default {
     itens_per_page: 'Items per page',
     page: 'Page',
     of: 'of',
+    copy_last_expenses: 'Copy Last Month Expenses',
 
 
   }

@@ -44,7 +44,7 @@
     <template v-slot:no-data>
       <span v-if="!lastFixedExpenses">No expenses yet =(</span>
      <v-btn v-else class="ma-2" outlined color="primary" @click="copyLastMonth">
-      <v-icon left>file_copy</v-icon> Copy Last Month Expenses
+      <v-icon left>file_copy</v-icon> {{ $t('copy_last_expenses') }}
     </v-btn>
     </template>
 
