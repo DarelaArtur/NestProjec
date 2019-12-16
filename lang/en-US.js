@@ -43,6 +43,7 @@ export default {
     page: 'Page',
     of: 'of',
     copy_last_expenses: 'Copy Last Month Expenses',
-
+    already_paid : 'Already paid?',
+    already_paid_desc: 'The expense will only count if it is already paid.' 
 
   }

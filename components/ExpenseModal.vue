@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="450px">
     <v-card>
       <v-card-title class="primary darken-1" style="color:white">{{
-       formTitle
+        formTitle
       }}</v-card-title>
       <v-container>
         <v-form ref="form" v-model="formValid">
@@ -92,6 +92,18 @@
                   </template>
                 </v-radio>
               </v-radio-group>
+              <v-checkbox
+                v-if="newExpense.expenseType == 'fixed'"
+                v-model="newExpense.paid"
+                color="primary"
+              >
+                <template v-slot:label>
+                  <div>
+                    <strong>{{ $t('already_paid') }}</strong>
+                    <small>{{ $t('already_paid_desc') }}</small>
+                  </div>
+                </template>
+              </v-checkbox>
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -122,19 +134,15 @@ import momentTimezone from 'moment-timezone'
 import { mapGetters } from 'vuex'
 
 export default {
-
   computed: {
     formTitle() {
-      return this.isUpdate
-        ? this.$t('edit_expense')
-        : this.$t('new_expense')
+      return this.isUpdate ? this.$t('edit_expense') : this.$t('new_expense')
     },
     ...mapGetters({
       infoUser: 'login/getInfoUser',
       categories: 'categories/getCategories',
       currentMonth: 'dashboard/getCurrentMonth'
-    }),
-    
+    })
   },
 
   props: {
@@ -165,13 +173,13 @@ export default {
       //this.resetExpense()
       //this.$refs.form.reset()
       this.$refs.form.resetValidation()
-      this.$nuxt.$emit('CLOSE_DIALOG', {});
+      this.$nuxt.$emit('CLOSE_DIALOG', {})
       //this.maskAmount = null
     },
 
     save(newExpense) {
-      if(this.isUpdate) {
-         this.$store.dispatch('dashboard/editExpense',  {
+      if (this.isUpdate) {
+        this.$store.dispatch('dashboard/editExpense', {
           expense: newExpense,
           currentMonth: this.currentMonth
         })
@@ -180,12 +188,11 @@ export default {
           expense: newExpense,
           currentMonth: this.currentMonth
         })
-        this.$nuxt.$emit('SNACKBAR', {});
+        this.$nuxt.$emit('SNACKBAR', {})
       }
       this.$refs.form.resetValidation()
-      this.$nuxt.$emit('CLOSE_DIALOG', {});
-    },
-
+      this.$nuxt.$emit('CLOSE_DIALOG', {})
+    }
   }
 }
 </script>

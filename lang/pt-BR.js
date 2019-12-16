@@ -43,5 +43,7 @@ export default {
     page: 'Página',
     of: 'de',
     copy_last_expenses: 'Copiar do mês passado',
+    already_paid : 'Já pagou?',
+    already_paid_desc: 'A despesa só irá contabilizar se já estiver paga.'
 
   }

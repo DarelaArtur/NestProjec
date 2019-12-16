@@ -35,12 +35,12 @@ export const mutations = {
             description: childSnapshot.val().expense.description,
             expenseType: childSnapshot.val().expense.expenseType,
             payday: childSnapshot.val().expense.payday,
+            paid: childSnapshot.val().expense.paid,
             id: childSnapshot.key
           }
-
-          state.fixedTotalAmount = parseFloat(
-            Number(state.fixedTotalAmount) + Number(expense.amount)
-          ).toFixed(2)
+          if(expense.paid) {
+            state.fixedTotalAmount = parseFloat(Number(state.fixedTotalAmount) + Number(expense.amount)).toFixed(2)
+          }
           expensesList.push(expense)
         })
         state.fixedExpenses = expensesList
@@ -174,6 +174,7 @@ export const mutations = {
         payday: moment(childSnapshot.val().expense.payday)
           .add(1, 'month')
           .format('YYYY-MM-DD'),
+        paid: false,
         id: childSnapshot.key
       }
       expensesList.push(expense)

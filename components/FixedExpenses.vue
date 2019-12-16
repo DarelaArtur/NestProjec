@@ -29,7 +29,8 @@
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
                     <v-chip :color="getColor(item.amount)" dark
-        >{{ infoUser.currencySymbol }}{{ item.amount }}</v-chip>
+        > 
+        {{ infoUser.currencySymbol }}{{ item.amount }} <v-icon size="15" v-if="item.paid" right>done_outline</v-icon></v-chip>
             </v-btn>
           </template>
           <span v-if="item.description">{{ item.description }}</span>
@@ -37,6 +38,7 @@
     </template>
 
     <template v-slot:item.action="{ item }">
+      <v-icon small class="mr-2" @click="editItemPayment(item)">done_outline</v-icon>
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
       <v-icon small @click="deleteItem(item)">delete</v-icon>
     </template>
@@ -123,7 +125,17 @@ export default {
       this.editedItem = Object.assign({}, item)
       this.$nuxt.$emit('OPEN_EDIT_DIALOG', this.editedItem)
     },
-
+    editItemPayment(item) {
+       if(item.paid) {
+         item.paid = false
+       } else {
+          item.paid = true
+       }
+       this.$store.dispatch('dashboard/editExpense', {
+          expense: item,
+          currentMonth: this.currentMonth
+        })
+    },
     deleteItem(item) {
       confirm('Are you sure you want to delete this item?') &&
         this.$store.dispatch('dashboard/removeExpense', {
