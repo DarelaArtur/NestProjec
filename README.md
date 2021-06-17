@@ -1,10 +1,10 @@
-# project-dashboard
+# Nest-Project
 
-> Dashboar project to test
+> Nest Project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm run install
 
