@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-if="authUser"
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       app
@@ -43,7 +42,11 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item v-else :key="item.text" @click="$router.push(localePath({ path: item.to }))">
+          <v-list-item
+            v-else
+            :key="item.text"
+            @click="$router.push(localePath({ path: item.to }))"
+          >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -55,10 +58,15 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-4" dark>
+    <v-app-bar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      app
+      color="blue darken-4"
+      dark
+    >
       <v-toolbar-title class="ml-0 pl-4">
-        <v-app-bar-nav-icon v-if="authUser" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <span class="hidden-sm-and-down">Patrimonial Manager</span>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <span class="hidden-sm-and-down">Nest - Sua mão amiga</span>
       </v-toolbar-title>
 
       <!--v-text-field
@@ -71,15 +79,9 @@
       ></v-text-field-->
       <v-spacer></v-spacer>
 
-      <language-currency-menu v-if="authUser"/>
-
-      <v-btn icon v-if="authUser">
+      <v-btn icon>
         <v-icon>notification_important</v-icon>
       </v-btn>
-
-      <div class="text-center">
-        <user-card-menu />
-      </div>
     </v-app-bar>
     <v-content>
       <v-container>
@@ -91,14 +93,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import UserCardMenu from '~/components/UserCardMenu.vue'
-import LanguageCurrencyMenu from '~/components/LanguageCurrencyMenu.vue'
 
 export default {
-  components: {
-    UserCardMenu,
-    LanguageCurrencyMenu
-  },
+  components: {},
 
   data() {
     return {
@@ -110,16 +107,19 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js',
-      drawer: null,
-     
+      drawer: null
     }
   },
   computed: {
     items() {
       return [
-        { icon: 'dashboard', text: this.$t('dashboard'), to: '/dashboard' },
+        {
+          icon: 'dashboard',
+          text: this.$t('Pontos de Captação'),
+          to: '/dashboard'
+        },
         //{ icon: 'history', text: 'Login', to: '/login' },
-        { icon: 'category', text: this.$t('categories'), to: '/categories' },
+        { icon: 'email', text: this.$t('campain'), to: '/campain' }
         /**  {
           icon: 'keyboard_arrow_up',
           'icon-alt': 'keyboard_arrow_down',
@@ -141,20 +141,14 @@ export default {
           ]
         },
         { icon: 'settings', text: 'Settings', to: '/inspire' },*/
-        { icon: 'chat_bubble', text: this.$t('send_feedback'), to: '/inspire' },
-        { icon: 'help', text: this.$t('help'), to: '/inspire' },
-       //{ icon: 'phonelink', text: 'App downloads', to: '/inspire' },
-       //{ icon: 'keyboard', text: 'Go to the old version', to: '/inspire' }
+        // { icon: 'chat_bubble', text: this.$t('send_feedback'), to: '/inspire' },
+        // { icon: 'help', text: this.$t('help'), to: '/inspire' },
+        //{ icon: 'phonelink', text: 'App downloads', to: '/inspire' },
+        //{ icon: 'keyboard', text: 'Go to the old version', to: '/inspire' }
       ]
     },
-    ...mapGetters({
-       authUser: 'login/getAuthUser',
-       infoUser: 'login/getInfoUser'
-    })
+    ...mapGetters({})
   },
-  beforeMount() {
-    this.$store.dispatch('login/loginVerify')
-      
-  }
+  beforeMount() {}
 }
 </script>

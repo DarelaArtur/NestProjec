@@ -31,8 +31,7 @@ export default {
   */
   plugins: [
     '~plugins/filters.js',
-    '~plugins/vue-the-mask.js',
-    '~plugins/v-money.js'
+    '~plugins/v-money.js',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -67,6 +66,10 @@ export default {
       loadLanguagesAsync: true,
       langDir: 'lang/',
       defaultLocale: 'en',
+    }],
+    ['nuxt-gmaps', {
+      key: 'AIzaSyD7rHO4ssnXipUOBnvy9vgEcjaYJOANyxY',
+      //you can use libraries: ['places']
     }]
   ],
   /*

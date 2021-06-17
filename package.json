@@ -1,8 +1,8 @@
 {
-  "name": "project-dashboard",
+  "name": "nest-project",
   "version": "1.0.0",
-  "description": "Dashboar project to test",
-  "author": "Vitor darela",
+  "description": "Projeto p3 Nest - a sua mão amiga",
+  "author": "Artur darela (Bilecote)",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -11,6 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.8.6",
+    "@googlemaps/js-api-loader": "^1.12.1",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "element-ui": "^2.12.0",
@@ -20,10 +22,12 @@
     "moment-timezone": "^0.5.27",
     "net": "^1.0.2",
     "nuxt": "^2.0.0",
+    "nuxt-gmaps": "^1.2.10",
     "nuxt-i18n": "^6.3.0",
     "request": "^2.88.0",
     "tls": "0.0.1",
     "v-money": "^0.8.1",
+    "vue-cookies": "^1.7.4",
     "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
